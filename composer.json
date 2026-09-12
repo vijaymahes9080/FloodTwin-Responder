@@ -1,0 +1,12 @@
+{
+    "name": "vijaymahes9080/floodtwin-responder",
+    "description": "FloodTwin-Responder",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vijay Mahes",
+            "email": "Vijaypradhap2004@gmail.com"
+        }
+    ],
+    "require": {}
+}
