@@ -23,21 +23,15 @@ DATASET_PATH = os.path.join(os.path.dirname(__file__), "..", "benchmarks", "coim
 COIMBATORE_BBOX = (10.85, 11.15, 76.85, 77.10)  # [min_lat, max_lat, min_lon, max_lon]
 
 
-def triage_pilot_data():
-    if not os.path.exists(DATASET_PATH):
-        print(f"Error: Dataset not found at {DATASET_PATH}")
-        sys.exit(1)
+def load_pilot_dataset(path=None):
+    target = path or DATASET_PATH
+    with open(target, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-    with open(DATASET_PATH, "r", encoding="utf-8") as f:
-        records = json.load(f)
 
-    print("==================================================================")
-    print("FLOODTWIN RESPONDER — COIMBATORE PILOT INCIDENT TRIAGE ENGINE")
-    print(f"Ingested {len(records)} ground records from Noyyal River Basin")
-    print("==================================================================")
-
+def triage_pilot_dataset(records, risk_engine=None):
     now = datetime(2026, 9, 12, 7, 0, 0, tzinfo=timezone.utc)
-    risk_engine = FloodRiskEngine()
+    engine = risk_engine or FloodRiskEngine()
 
     processed = []
     duplicate_clusters = {}
@@ -51,7 +45,7 @@ def triage_pilot_data():
         notes = r.get("notes", "")
 
         # Check adversarial payload
-        if "ignore previous instructions" in notes.lower() or "system override" in notes.lower() or r["water_depth_cm"] > 300:
+        if "ignore previous instructions" in notes.lower() or "system override" in notes.lower() or r.get("water_depth_cm", 0) > 300:
             suppressed_adversarial.append(r_id)
             continue
 
@@ -99,7 +93,7 @@ def triage_pilot_data():
     scored_candidates = []
     for r in primary_records:
         cluster_size = len(duplicate_clusters.get(r["report_id"], [r["report_id"]]))
-        calc = risk_engine.calculate_risk(
+        calc = engine.calculate_risk(
             rainfall_3h_mm=r["rainfall_mm_6h"] * 0.6,
             sensor_water_level_m=r["sensor_level_cm"] / 25.0,  # convert cm stage to normalized meter ratio
             reported_depth_cm=r["water_depth_cm"],
@@ -107,7 +101,6 @@ def triage_pilot_data():
             nearby_critical_assets_count=2 if "Hospital" in r["nearby_asset"] else 1
         )
 
-        # Corroboration boost if clustered by multiple callers
         final_score = min(100.0, calc["score"] + (cluster_size - 1) * 3.5)
 
         scored_candidates.append({
@@ -116,43 +109,66 @@ def triage_pilot_data():
             "depth_cm": r["water_depth_cm"],
             "rainfall_6h": r["rainfall_mm_6h"],
             "sensor_cm": r["sensor_level_cm"],
-            "risk_score": round(final_score, 1),
+            "score": round(final_score, 1),
             "severity": calc["severity"],
             "uncertainty": calc["uncertainty_score"],
             "cluster_count": cluster_size,
             "coords": (r["latitude"], r["longitude"]),
             "factors": calc["factors"],
-            "recommended_action": calc["recommended_next_verification_step"]
+            "protocol": calc["recommended_next_verification_step"]
         })
 
-    # Sort descending by risk score
-    scored_candidates.sort(key=lambda x: x["risk_score"], reverse=True)
+    scored_candidates.sort(key=lambda x: x["score"], reverse=True)
 
-    # Output Summary
+    return {
+        "adversarial_ids": suppressed_adversarial,
+        "stale_ids": stale_records,
+        "duplicate_clusters": duplicate_clusters,
+        "contradictory_flags": contradictory_flags,
+        "top_5": scored_candidates[:5],
+        "all_ranked": scored_candidates
+    }
+
+
+def triage_pilot_data():
+    if not os.path.exists(DATASET_PATH):
+        print(f"Error: Dataset not found at {DATASET_PATH}")
+        sys.exit(1)
+
+    records = load_pilot_dataset()
+
+    print("==================================================================")
+    print("FLOODTWIN RESPONDER — COIMBATORE PILOT INCIDENT TRIAGE ENGINE")
+    print(f"Ingested {len(records)} ground records from Noyyal River Basin")
+    print("==================================================================")
+
+    res = triage_pilot_dataset(records)
+
     print(f"\n[TRIAGE SUMMARY]")
     print(f"  • Total Ingested: {len(records)}")
-    print(f"  • Adversarial Injections Suppressed: {len(suppressed_adversarial)} ({suppressed_adversarial})")
-    print(f"  • Outdated / Stale Observations Dropped: {len(stale_records)} ({stale_records})")
-    print(f"  • Duplicate Clusters Detected: {len(duplicate_clusters)}")
-    for k, v in duplicate_clusters.items():
+    print(f"  • Adversarial Injections Suppressed: {len(res['adversarial_ids'])} ({res['adversarial_ids']})")
+    print(f"  • Outdated / Stale Observations Dropped: {len(res['stale_ids'])} ({res['stale_ids']})")
+    print(f"  • Duplicate Clusters Detected: {len(res['duplicate_clusters'])}")
+    for k, v in res['duplicate_clusters'].items():
         print(f"      - Cluster {k}: {v}")
-    if contradictory_flags:
-        print(f"  • Contradictory Evidence Pairs Flagged for Field Inspection: {contradictory_flags}")
+    if res['contradictory_flags']:
+        print(f"  • Contradictory Evidence Pairs Flagged for Field Inspection: {res['contradictory_flags']}")
 
     print("\n==================================================================")
     print("TOP 5 PRIORITY LOCATIONS REQUIRING HUMAN FIELD INSPECTION")
     print("==================================================================")
-    for idx, cand in enumerate(scored_candidates[:5], 1):
-        print(f"RANK {idx}: [{cand['severity']}] Score: {cand['risk_score']}/100.0 (Uncertainty: {cand['uncertainty']*100:.0f}%)")
+    for idx, cand in enumerate(res["top_5"], 1):
+        print(f"RANK {idx}: [{cand['severity']}] Score: {cand['score']}/100.0 (Uncertainty: {cand['uncertainty']*100:.0f}%)")
         print(f"  • Report: {cand['report_id']} | Cluster Callers: {cand['cluster_count']}")
         print(f"  • Critical Asset: {cand['asset']}")
         print(f"  • Telemetry: Depth={cand['depth_cm']}cm | Rain(6h)={cand['rainfall_6h']}mm | SensorStage={cand['sensor_cm']}cm")
         print(f"  • Coordinates: {cand['coords'][0]:.4f}, {cand['coords'][1]:.4f}")
-        print(f"  • Recommended Protocol: {cand['recommended_action']}")
+        print(f"  • Recommended Protocol: {cand['protocol']}")
         print("------------------------------------------------------------------")
 
-    return scored_candidates[:5]
+    return res["top_5"]
 
 
 if __name__ == "__main__":
     triage_pilot_data()
+
