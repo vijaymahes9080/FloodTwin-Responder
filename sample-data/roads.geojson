@@ -1,0 +1,124 @@
+{
+  "type": "FeatureCollection",
+  "name": "Chennai_Key_Corridors",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "road_id": "ROAD_01",
+        "name": "Anna Salai (Mount Road)",
+        "category": "PRIMARY_ARTERIAL",
+        "elevation_m": 8.5,
+        "flood_susceptibility": "LOW"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.27,
+            13.08
+          ],
+          [
+            80.25,
+            13.06
+          ],
+          [
+            80.22,
+            13.02
+          ],
+          [
+            80.2,
+            13.005
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "road_id": "ROAD_02",
+        "name": "Poonamallee High Road",
+        "category": "PRIMARY_ARTERIAL",
+        "elevation_m": 6.2,
+        "flood_susceptibility": "MODERATE"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.28,
+            13.08
+          ],
+          [
+            80.23,
+            13.075
+          ],
+          [
+            80.17,
+            13.065
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "road_id": "ROAD_03",
+        "name": "Inner Ring Road (100ft Road)",
+        "category": "SECONDARY_ARTERIAL",
+        "elevation_m": 4.8,
+        "flood_susceptibility": "HIGH"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.205,
+            13.085
+          ],
+          [
+            80.21,
+            13.045
+          ],
+          [
+            80.215,
+            13.005
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "road_id": "ROAD_04",
+        "name": "Adyar Bridge - Rajiv Gandhi Salai (OMR)",
+        "category": "COASTAL_EXPRESSWAY",
+        "elevation_m": 3.9,
+        "flood_susceptibility": "CRITICAL"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.255,
+            13.01
+          ],
+          [
+            80.25,
+            12.98
+          ],
+          [
+            80.245,
+            12.95
+          ]
+        ]
+      }
+    }
+  ]
+}

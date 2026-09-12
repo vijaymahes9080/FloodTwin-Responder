@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: floodtwin-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - MOCK_NOTIFICATION_MODE=true
+      - SECRET_KEY=floodtwin-prod-secret-key-change-me
+      - DATABASE_URL=postgresql://floodtwin:floodtwin123@postgis:5432/floodtwin_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgis
+      - redis
+    networks:
+      - floodtwin-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: floodtwin-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - floodtwin-net
+
+  postgis:
+    image: postgis/postgis:16-3.4
+    container_name: floodtwin-postgis
+    environment:
+      - POSTGRES_USER=floodtwin
+      - POSTGRES_PASSWORD=floodtwin123
+      - POSTGRES_DB=floodtwin_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+    networks:
+      - floodtwin-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: floodtwin-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - floodtwin-net
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: floodtwin-n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=false
+      - EXECUTIONS_DATA_PRUNE=true
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - backend
+    networks:
+      - floodtwin-net
+
+volumes:
+  postgis_data:
+  n8n_data:
+
+networks:
+  floodtwin-net:
+    driver: bridge

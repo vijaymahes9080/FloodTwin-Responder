@@ -1,0 +1,104 @@
+{
+  "type": "FeatureCollection",
+  "name": "Authorized_Disaster_Relief_Shelters",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "SHELTER_01",
+        "name": "Jawaharlal Nehru Indoor Stadium Relief Hub",
+        "total_capacity": 3500,
+        "current_occupancy": 320,
+        "operational_status": "OPEN",
+        "emergency_contact": "+91-44-25361234",
+        "has_medical_supply": true,
+        "has_backup_power": true,
+        "wheelchair_accessible": true,
+        "elevation_m": 8.0,
+        "zone_id": "ZONE_01_CENTRAL"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.274,
+          13.084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "SHELTER_02",
+        "name": "Saidapet Community Center & Multipurpose Hall",
+        "total_capacity": 850,
+        "current_occupancy": 150,
+        "operational_status": "OPEN",
+        "emergency_contact": "+91-44-24355512",
+        "has_medical_supply": true,
+        "has_backup_power": true,
+        "wheelchair_accessible": true,
+        "elevation_m": 5.2,
+        "zone_id": "ZONE_02_SOUTH"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.224,
+          13.022
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "SHELTER_03",
+        "name": "Adyar Corporation Community Hall",
+        "total_capacity": 600,
+        "current_occupancy": 80,
+        "operational_status": "OPEN",
+        "emergency_contact": "+91-44-24419876",
+        "has_medical_supply": true,
+        "has_backup_power": true,
+        "wheelchair_accessible": true,
+        "elevation_m": 6.9,
+        "zone_id": "ZONE_02_SOUTH"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.252,
+          13.006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "SHELTER_04",
+        "name": "Koyambedu Wholesale Market Complex Safe Haven",
+        "total_capacity": 2200,
+        "current_occupancy": 0,
+        "operational_status": "STANDBY",
+        "emergency_contact": "+91-44-24792345",
+        "has_medical_supply": false,
+        "has_backup_power": true,
+        "wheelchair_accessible": false,
+        "elevation_m": 7.8,
+        "zone_id": "ZONE_03_WEST"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.191,
+          13.071
+        ]
+      }
+    }
+  ]
+}

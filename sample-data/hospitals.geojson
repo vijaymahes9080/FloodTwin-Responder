@@ -1,0 +1,122 @@
+{
+  "type": "FeatureCollection",
+  "name": "Critical_Healthcare_Facilities",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "HOSP_01",
+        "name": "Rajiv Gandhi Government General Hospital (RGGGH)",
+        "category": "HOSPITAL",
+        "capacity_beds": 2700,
+        "icu_capacity": 220,
+        "elevation_m": 6.5,
+        "flood_protection_tier_cm": 50.0,
+        "generator_backup": "ROOFTOP_INSTALLED",
+        "emergency_contact": "+91-44-25305000",
+        "zone_id": "ZONE_01_CENTRAL"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.278,
+          13.082
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "HOSP_02",
+        "name": "Government Royapettah Hospital",
+        "category": "HOSPITAL",
+        "capacity_beds": 712,
+        "icu_capacity": 60,
+        "elevation_m": 7.2,
+        "flood_protection_tier_cm": 40.0,
+        "generator_backup": "GROUND_ELEVATED",
+        "emergency_contact": "+91-44-28481400",
+        "zone_id": "ZONE_01_CENTRAL"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.262,
+          13.054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "HOSP_03",
+        "name": "MIOT International Manapakkam",
+        "category": "HOSPITAL",
+        "capacity_beds": 1000,
+        "icu_capacity": 150,
+        "elevation_m": 3.8,
+        "flood_protection_tier_cm": 35.0,
+        "generator_backup": "REINFORCED_ENCLOSURE",
+        "emergency_contact": "+91-44-42002288",
+        "zone_id": "ZONE_02_SOUTH"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.187,
+          13.023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "HOSP_04",
+        "name": "Kalyani Multi-Specialty Hospital Mylapore",
+        "category": "HOSPITAL",
+        "capacity_beds": 220,
+        "icu_capacity": 30,
+        "elevation_m": 6.1,
+        "flood_protection_tier_cm": 30.0,
+        "generator_backup": "GROUND_LEVEL",
+        "emergency_contact": "+91-44-28472480",
+        "zone_id": "ZONE_02_SOUTH"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.266,
+          13.037
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "HOSP_05",
+        "name": "KMC Hospital Kilpauk",
+        "category": "HOSPITAL",
+        "capacity_beds": 850,
+        "icu_capacity": 90,
+        "elevation_m": 8.0,
+        "flood_protection_tier_cm": 45.0,
+        "generator_backup": "ROOFTOP_INSTALLED",
+        "emergency_contact": "+91-44-28364950",
+        "zone_id": "ZONE_01_CENTRAL"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.243,
+          13.079
+        ]
+      }
+    }
+  ]
+}

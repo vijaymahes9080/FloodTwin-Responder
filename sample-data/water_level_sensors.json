@@ -1,0 +1,67 @@
+[
+  {
+    "sensor_id": "SENSOR_COOUM_CHETPET",
+    "sensor_name": "Cooum River Stage Gauge - Chetpet Bridge",
+    "latitude": 13.073,
+    "longitude": 80.245,
+    "water_level_m": 3.85,
+    "baseline_normal_m": 1.2,
+    "warning_threshold_m": 3.0,
+    "danger_threshold_m": 3.6,
+    "battery_percentage": 94.0,
+    "quality_flag": "VALID",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00"
+  },
+  {
+    "sensor_id": "SENSOR_ADYAR_SAIDAPET",
+    "sensor_name": "Adyar River Stage Gauge - Saidapet Causeway",
+    "latitude": 13.018,
+    "longitude": 80.222,
+    "water_level_m": 4.45,
+    "baseline_normal_m": 1.5,
+    "warning_threshold_m": 3.2,
+    "danger_threshold_m": 4.1,
+    "battery_percentage": 88.5,
+    "quality_flag": "VALID",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00"
+  },
+  {
+    "sensor_id": "SENSOR_ADYAR_KOTTURPURAM",
+    "sensor_name": "Adyar Stage Gauge - Kotturpuram Bridge",
+    "latitude": 13.016,
+    "longitude": 80.241,
+    "water_level_m": 4.15,
+    "baseline_normal_m": 1.4,
+    "warning_threshold_m": 3.1,
+    "danger_threshold_m": 3.9,
+    "battery_percentage": 92.0,
+    "quality_flag": "VALID",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00"
+  },
+  {
+    "sensor_id": "SENSOR_BUCKINGHAM_SANTHOME",
+    "sensor_name": "Buckingham Canal Lock Gauge - Santhome",
+    "latitude": 13.033,
+    "longitude": 80.276,
+    "water_level_m": 2.95,
+    "baseline_normal_m": 1.0,
+    "warning_threshold_m": 2.5,
+    "danger_threshold_m": 3.0,
+    "battery_percentage": 97.0,
+    "quality_flag": "VALID",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00"
+  },
+  {
+    "sensor_id": "SENSOR_PORUR_LAKE_WEIR",
+    "sensor_name": "Porur Surplus Channel Weir",
+    "latitude": 13.038,
+    "longitude": 80.161,
+    "water_level_m": 3.4,
+    "baseline_normal_m": 1.1,
+    "warning_threshold_m": 2.6,
+    "danger_threshold_m": 3.2,
+    "battery_percentage": 81.0,
+    "quality_flag": "VALID",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00"
+  }
+]

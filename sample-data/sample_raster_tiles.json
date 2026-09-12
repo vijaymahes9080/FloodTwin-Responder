@@ -1,0 +1,65 @@
+{
+  "grid_metadata": {
+    "crs": "EPSG:4326",
+    "cell_size_deg": 0.02,
+    "bbox": [
+      80.15,
+      12.98,
+      80.29,
+      13.12
+    ],
+    "rows": 7,
+    "cols": 7,
+    "source": "Sentinel-1_SAR_Synthetic_Water_Index"
+  },
+  "tiles": [
+    {
+      "tile_id": "TILE_ADYAR_LOWER",
+      "bbox": [
+        80.21,
+        13.0,
+        80.25,
+        13.04
+      ],
+      "water_mask_coverage_pct": 68.4,
+      "mean_elevation_m": 4.3,
+      "estimated_inundation_depth_cm": 85.0
+    },
+    {
+      "tile_id": "TILE_COOUM_CENTRAL",
+      "bbox": [
+        80.23,
+        13.06,
+        80.27,
+        13.1
+      ],
+      "water_mask_coverage_pct": 54.2,
+      "mean_elevation_m": 5.9,
+      "estimated_inundation_depth_cm": 55.0
+    },
+    {
+      "tile_id": "TILE_PORUR_RUNOFF",
+      "bbox": [
+        80.15,
+        13.02,
+        80.19,
+        13.06
+      ],
+      "water_mask_coverage_pct": 49.0,
+      "mean_elevation_m": 6.1,
+      "estimated_inundation_depth_cm": 45.0
+    },
+    {
+      "tile_id": "TILE_MYLAPORE_COASTAL",
+      "bbox": [
+        80.25,
+        13.02,
+        80.29,
+        13.06
+      ],
+      "water_mask_coverage_pct": 18.5,
+      "mean_elevation_m": 7.4,
+      "estimated_inundation_depth_cm": 15.0
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "station_id": "AWS_NUNGAMBAKKAM",
+    "station_name": "Regional Meteorological Centre Nungambakkam",
+    "latitude": 13.061,
+    "longitude": 80.242,
+    "rain_last_1h_mm": 42.5,
+    "rain_last_3h_mm": 98.0,
+    "rain_last_24h_mm": 184.2,
+    "intensity_classification": "VERY_HEAVY",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "status": "OPERATIONAL"
+  },
+  {
+    "station_id": "AWS_MEENAMBAKKAM",
+    "station_name": "Airport Meteorological Station Meenambakkam",
+    "latitude": 12.994,
+    "longitude": 80.181,
+    "rain_last_1h_mm": 51.0,
+    "rain_last_3h_mm": 115.5,
+    "rain_last_24h_mm": 210.0,
+    "intensity_classification": "EXTREMELY_HEAVY",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "status": "OPERATIONAL"
+  },
+  {
+    "station_id": "AWS_ADYAR_ESTUARY",
+    "station_name": "Adyar Estuary Coastal Gauge",
+    "latitude": 13.007,
+    "longitude": 80.271,
+    "rain_last_1h_mm": 34.0,
+    "rain_last_3h_mm": 72.0,
+    "rain_last_24h_mm": 145.0,
+    "intensity_classification": "HEAVY",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "status": "OPERATIONAL"
+  },
+  {
+    "station_id": "AWS_CHEMBARAMBAKKAM",
+    "station_name": "Chembarambakkam Reservoir Basin AWS",
+    "latitude": 13.011,
+    "longitude": 80.058,
+    "rain_last_1h_mm": 68.0,
+    "rain_last_3h_mm": 142.0,
+    "rain_last_24h_mm": 265.0,
+    "intensity_classification": "EXTREMELY_HEAVY",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "status": "OPERATIONAL"
+  }
+]

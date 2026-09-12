@@ -1,0 +1,211 @@
+{
+  "name": "FloodTwin Responder - Emergency Planning Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "flood-report-webhook",
+        "responseMode": "onReceived",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "node-webhook-trigger",
+      "name": "Incoming Report Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Idempotency and Payload Sanitization Filter\nconst payload = items[0].json;\nconst headers = items[0].headers || {};\nconst idempotencyKey = headers['x-idempotency-key'] || ('IDEMP-' + Date.now());\n\n// Basic Coordinate Validation (Chennai envelope)\nconst lat = parseFloat(payload.latitude);\nconst lon = parseFloat(payload.longitude);\n\nif (isNaN(lat) || isNaN(lon) || lat < 12.80 || lat > 13.30 || lon < 79.90 || lon > 80.40) {\n  return [{ json: { valid: false, error: 'COORDINATES_OUT_OF_BOUNDS', idempotencyKey } }];\n}\n\nreturn [{ json: { valid: true, payload, idempotencyKey, timestamp: new Date().toISOString() } }];"
+      },
+      "id": "node-validate-report",
+      "name": "Validate & Check Idempotency",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json[\"valid\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "node-if-valid",
+      "name": "Is Report Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "http://backend:8000/api/v1/reports",
+        "options": {
+          "timeout": 5000,
+          "retryOnFail": true,
+          "maxTries": 3
+        },
+        "jsonParameters": true,
+        "bodyParametersJson": "={{JSON.stringify($json.payload)}}"
+      },
+      "id": "node-store-report",
+      "name": "Store Report in Backend",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [760, 220]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "http://backend:8000/api/v1/risk/analyze",
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"rainfall_3h_mm\": 95.0,\n  \"sensor_water_level_m\": 3.9,\n  \"reported_depth_cm\": {{$json[\"reported_depth_cm\"] || 50.0}},\n  \"elevation_m\": 5.5\n}"
+      },
+      "id": "node-run-risk",
+      "name": "Execute Explainable Risk Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [980, 220]
+    },
+    {
+      "parameters": {
+        "requestMethod": "GET",
+        "url": "http://backend:8000/api/v1/policy/search?query=urban%20flood%20inundation%20evacuation&top_k=2"
+      },
+      "id": "node-retrieve-policy",
+      "name": "Retrieve Grounded SOP Citations",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1200, 220]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "http://backend:8000/api/v1/response-briefs",
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"zone_id\": \"ZONE_02_SOUTH\",\n  \"zone_name\": \"South Chennai - Adyar Basin\",\n  \"latitude\": 13.018,\n  \"longitude\": 80.222\n}"
+      },
+      "id": "node-generate-brief",
+      "name": "Bounded Agent: Draft Brief",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1420, 220]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Human Approval Gate & Mock Dispatch Sandbox\nconst brief = items[0].json;\n\n// Mandatory Safety Rule: Autonomous dispatch is barred.\n// This node simulates the staging for commander sign-off and dispatches mock notification.\nconst mockNotification = {\n  status: 'STAGED_FOR_COMMANDER_APPROVAL',\n  brief_id: brief.id,\n  mock_mode: true,\n  mock_banner: '[SIMULATION ONLY - NO LIVE ALERTS ISSUED]',\n  approval_gate: 'PENDING_DISASTER_COMMANDER_ROLE',\n  staged_at: new Date().toISOString()\n};\n\nreturn [{ json: { brief, mockNotification } }];"
+      },
+      "id": "node-approval-gate",
+      "name": "Human Approval Gate & Mock Dispatch",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1640, 220]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Dead Letter Queue (DLQ) Handler for Malformed / Out of Bounds Reports\nconst failure = items[0].json;\nreturn [{\n  json: {\n    dead_letter_status: 'QUARANTINED',\n    reason: failure.error || 'VALIDATION_REJECTED',\n    idempotencyKey: failure.idempotencyKey,\n    quarantined_at: new Date().toISOString(),\n    investigation_priority: 'LOW'\n  }\n}];"
+      },
+      "id": "node-dead-letter",
+      "name": "Dead-Letter Queue (DLQ)",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [760, 420]
+    }
+  ],
+  "connections": {
+    "Incoming Report Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate & Check Idempotency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate & Check Idempotency": {
+      "main": [
+        [
+          {
+            "node": "Is Report Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Report Valid?": {
+      "main": [
+        [
+          {
+            "node": "Store Report in Backend",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dead-Letter Queue (DLQ)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Report in Backend": {
+      "main": [
+        [
+          {
+            "node": "Execute Explainable Risk Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Explainable Risk Engine": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Grounded SOP Citations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Grounded SOP Citations": {
+      "main": [
+        [
+          {
+            "node": "Bounded Agent: Draft Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bounded Agent: Draft Brief": {
+      "main": [
+        [
+          {
+            "node": "Human Approval Gate & Mock Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "floodtwin-v1-n8n"
+}

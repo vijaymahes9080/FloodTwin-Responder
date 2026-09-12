@@ -1,0 +1,51 @@
+{
+  "timestamp": "2026-09-12T01:17:17.286885+00:00",
+  "total_test_cases": 200,
+  "metrics": {
+    "hotspot_classification_accuracy_pct": {
+      "target": ">= 80%",
+      "actual": 87.0,
+      "passed": true
+    },
+    "duplicate_detection_precision_pct": {
+      "target": ">= 85%",
+      "actual": 100.0,
+      "passed": true
+    },
+    "duplicate_detection_recall_pct": {
+      "target": ">= 85%",
+      "actual": 100.0,
+      "passed": true
+    },
+    "asset_prioritization_accuracy_pct": {
+      "target": ">= 85%",
+      "actual": 95.0,
+      "passed": true
+    },
+    "policy_citation_coverage_pct": {
+      "target": ">= 90%",
+      "actual": 100.0,
+      "passed": true
+    },
+    "unsupported_claim_rate_pct": {
+      "target": "0.0%",
+      "actual": 0.0,
+      "passed": true
+    },
+    "false_alert_reduction_pct": {
+      "target": ">= 70%",
+      "actual": 70.0,
+      "passed": true
+    },
+    "median_response_brief_latency_sec": {
+      "target": "< 2.0s",
+      "actual": 0.0,
+      "passed": true
+    },
+    "approval_logging_completeness_pct": {
+      "target": "100.0%",
+      "actual": 100.0,
+      "passed": true
+    }
+  }
+}

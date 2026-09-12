@@ -1,0 +1,66 @@
+[
+  {
+    "id": "REP_001_SAIDAPET",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "source": "CITIZEN_MOBILE_APP",
+    "data_category": "OBSERVED",
+    "confidence": 0.88,
+    "coordinates": {
+      "latitude": 13.0175,
+      "longitude": 80.2215,
+      "altitude_m": 4.2
+    },
+    "reported_depth_cm": 95.0,
+    "description": "Saidapet bazaar road submerged, water reaching hip height near causeway.",
+    "water_flow": "rapid",
+    "verification_status": "POSSIBLE_WATERLOGGING"
+  },
+  {
+    "id": "REP_002_CHETPET",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "source": "FIELD_VOLUNTEER",
+    "data_category": "OBSERVED",
+    "confidence": 0.92,
+    "coordinates": {
+      "latitude": 13.0725,
+      "longitude": 80.2445,
+      "altitude_m": 5.8
+    },
+    "reported_depth_cm": 60.0,
+    "description": "Cooum overflow backflow into residential streets near Harrington road subways.",
+    "water_flow": "moving",
+    "verification_status": "POSSIBLE_WATERLOGGING"
+  },
+  {
+    "id": "REP_003_KOTTURPURAM",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "source": "EMERGENCY_HOTLINE",
+    "data_category": "OBSERVED",
+    "confidence": 0.85,
+    "coordinates": {
+      "latitude": 13.0155,
+      "longitude": 80.2405,
+      "altitude_m": 4.0
+    },
+    "reported_depth_cm": 110.0,
+    "description": "Ground floor apartments inundated along River View Road. Power disconnected.",
+    "water_flow": "standing",
+    "verification_status": "POSSIBLE_WATERLOGGING"
+  },
+  {
+    "id": "REP_004_MYLAPORE",
+    "timestamp": "2026-09-12T01:08:34.292620+00:00",
+    "source": "CITIZEN_MOBILE_APP",
+    "data_category": "OBSERVED",
+    "confidence": 0.78,
+    "coordinates": {
+      "latitude": 13.036,
+      "longitude": 80.267,
+      "altitude_m": 6.8
+    },
+    "reported_depth_cm": 25.0,
+    "description": "Kutchery road storm drain overflowing, ankle deep water on roadway.",
+    "water_flow": "moving",
+    "verification_status": "POSSIBLE_WATERLOGGING"
+  }
+]
