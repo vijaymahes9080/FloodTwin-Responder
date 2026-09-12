@@ -1,7 +1,7 @@
 # FLOODTWIN RESPONDER
 
 > **Human-Supervised Flood Intelligence & Response-Planning Platform**  
-> *Combining Satellite Imagery, Rainfall Telemetry, IoT Sensors, Citizen Reports, Geospatial Intelligence, Grounded RAG, MCP, and n8n Automation.*
+> *Combining Satellite SAR Imagery, Rainfall Telemetry, IoT LoRaWAN Sensors, Citizen Reports, Hydrological Analysis, Grounded RAG, MCP, and n8n Automation.*
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg)](https://fastapi.tiangolo.com/)
@@ -9,7 +9,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178c6.svg)](https://www.typescriptlang.org/)
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9-199900.svg)](https://leafletjs.com/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-29%2F29%20Passed-emerald.svg)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-64%2F64%20Passed-emerald.svg)](tests/)
 [![Benchmarks](https://img.shields.io/badge/Benchmarks-9%2F9%20Passed-emerald.svg)](benchmarks/)
 
 ---
@@ -35,6 +35,7 @@
                                 |  - 11 Dynamic Geospatial Command Views    |
                                 |  - Leaflet Map (EPSG:4326/3857)           |
                                 |  - Bilingual English / தமிழ் Toggle       |
+                                |  - Offline Sync & IndexedDB Caching       |
                                 +---------------------+---------------------+
                                                       | REST / WebSockets
                                                       v
@@ -42,14 +43,16 @@
 |                                      FASTAPI SERVICE GATEWAY                                       |
 |  - Rate Limiting Middleware   - Role-Based Auth (JWT)    - Defensive Security Headers (CSP, HSTS)  |
 |  - Merkle Audit Chaining      - SSRF IP Whitelist Filter - Automated PII Scrubber (Regex & Entropy)|
+|  - WhatsApp / SMS Webhook     - Whisper Voice Adapter    - Formal Safety Invariant Verifier        |
 +------------------+-------------------+-------------------+-------------------+--------------------+
                    |                   |                   |                   |
                    v                   v                   v                   v
 +------------------+--+ +--------------+--+ +--------------+--+ +---------------+--+ +---------------+--+
-| INGESTION & QC      | | GEOSPATIAL      | | RISK ENGINE      | | RAG KNOWLEDGE   | | BOUNDED AGENT   |
-| - Haversine Dup Det | | - Point-in-Poly | | - 5-Factor Score | | - Grounded SOPs | | - 8-State FSM   |
-| - BBox Envelope     | | - Spatial Joins | | - Freshness Decay| | - Page Citations| | - Brief Draft   |
-| - Wording Normalizer| | - Buffer Zones  | | - Uncertainty    | | - SHA-256 Hashes| | - HITL Gate     |
+| INGESTION & QC      | | GEOSPATIAL       | | RISK ENGINE      | | RAG KNOWLEDGE   | | BOUNDED AGENT   |
+| - Haversine Dup Det | | - SAR Water Ext  | | - 5-Factor Score | | - Grounded SOPs | | - 8-State FSM   |
+| - BBox Envelope     | | - DEM D8 Flow/TWI| | - Freshness Decay| | - Page Citations| | - Brief Draft   |
+| - Wording Normalizer| | - Drainage Graph | | - Uncertainty    | | - SHA-256 Hashes| | - HITL Gate     |
+| - LoRaWAN Decoders  | | - Evac Routing   | | - Parametric Ins | | - Confidence Min| | - Audit Merkle  |
 +---------------------+ +-----------------+ +------------------+ +-----------------+ +-----------------+
                    |                   |                   |                   |
                    +-------------------+-------------------+-------------------+
@@ -57,7 +60,7 @@
                                        v
 +---------------------------------------------------------------------------------------------------+
 |                                     INTEGRATION & PERSISTENCE                                     |
-|  - Model Context Protocol (MCP) Server (JSON-RPC stdio & HTTP tools)                              |
+|  - Model Context Protocol (MCP) Server (JSON-RPC 2.0 stdio & HTTP tools)                          |
 |  - n8n Community Edition Webhook Automation & Dead-Letter Queue Pipeline                          |
 |  - Cryptographically Chained SHA-256 Merkle Audit Log                                             |
 |  - SQLite (Local Dev) / PostGIS 16 (Containerized Production)                                     |
@@ -88,7 +91,7 @@ Evaluated across **240 curated ground-truth cases** (`benchmarks/dataset.json`):
 
 | Metric | Target | Actual | Evaluation Status |
 | :--- | :--- | :--- | :--- |
-| **Hotspot Classification Accuracy** | $\ge 80.0\%$ | **87.0%** | **PASS** |
+| **Hotspot Classification Accuracy** | $\ge 80.0\%$ | **87.5%** | **PASS** |
 | **Duplicate Detection Precision** | $\ge 85.0\%$ | **100.0%** | **PASS** |
 | **Duplicate Detection Recall** | $\ge 85.0\%$ | **100.0%** | **PASS** |
 | **Asset Prioritization Accuracy** | $\ge 85.0\%$ | **95.0%** | **PASS** |
@@ -111,16 +114,19 @@ cd frontend && npm install && cd ..
 # 2. Seed initial data
 python scripts/seed_data.py
 
-# 3. Run automated tests (29/29)
-pytest tests/ -v
+# 3. Run automated tests (64/64 Passed)
+python -m pytest
 
 # 4. Execute benchmark suite
 python benchmarks/run_benchmarks.py
 
-# 5. Start Backend API Server
+# 5. Run Coimbatore Pilot Triage (Concrete Action Item 12)
+python scripts/triage_coimbatore_pilot.py
+
+# 6. Start Backend API Server
 uvicorn backend.app.main:app --reload --port 8000
 
-# 6. Start Frontend Dashboard (separate terminal)
+# 7. Start Frontend Dashboard (separate terminal)
 cd frontend && npm run dev
 ```
 
@@ -177,15 +183,21 @@ Import `n8n/floodtwin_responder_workflow.json` into n8n Community Edition:
 - [Safety Model & Invariants](docs/safety-model.md)
 - [Threat Model](docs/threat-model.md)
 - [Geospatial Methods & CRS](docs/geospatial-methods.md)
+- [Geospatial Algorithms (SAR, TWI, D8, Manning)](docs/geospatial-algorithms.md)
 - [Security Architecture](docs/security.md)
 - [Empirical Evaluation Report](docs/evaluation.md)
 - [Model Context Protocol (MCP)](docs/mcp.md)
 - [n8n Disaster Pipeline](docs/n8n.md)
+- [Research Paper Preprint](docs/research-paper.md)
+- [Climate-Tech Startup Pitch Deck](docs/startup-pitch.md)
+- [Incident Commander Operational Handbook](docs/disaster-management-handbook.md)
 - [Research & Startup Roadmap](docs/research-roadmap.md)
 - [Safety Limitations](docs/limitations.md)
 
 ---
 
-## License
+## License & Developer Info
 
-FloodTwin Responder is open-source software licensed under the **Apache License 2.0**.
+- **License**: Apache License 2.0 (see [LICENSE](LICENSE))
+- **Lead Architect**: Vijay Mahes ([Vijaypradhap2004@gmail.com](mailto:Vijaypradhap2004@gmail.com))
+- **Repository**: [https://github.com/vijaymahes9080/FloodTwin-Responder.git](https://github.com/vijaymahes9080/FloodTwin-Responder.git)
