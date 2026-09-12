@@ -11,6 +11,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-64%2F64%20Passed-emerald.svg)](tests/)
 [![Benchmarks](https://img.shields.io/badge/Benchmarks-9%2F9%20Passed-emerald.svg)](benchmarks/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blueviolet.svg)](https://vijaymahes9080.github.io/FloodTwin-Responder/)
 
 <p align="center">
   <img src="docs/images/dashboard_light.jpg" alt="FloodTwin Responder Light Theme Operational Command Dashboard" width="100%" />
