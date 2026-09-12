@@ -12,6 +12,10 @@
 [![Tests](https://img.shields.io/badge/Tests-64%2F64%20Passed-emerald.svg)](tests/)
 [![Benchmarks](https://img.shields.io/badge/Benchmarks-9%2F9%20Passed-emerald.svg)](benchmarks/)
 
+<p align="center">
+  <img src="docs/images/dashboard_light.jpg" alt="FloodTwin Responder Light Theme Operational Command Dashboard" width="100%" />
+</p>
+
 ---
 
 ## Mission & System Scope
@@ -28,6 +32,10 @@
 ---
 
 ## System Architecture
+
+<p align="center">
+  <img src="docs/images/architecture_light.jpg" alt="FloodTwin Responder System Architecture Diagram" width="100%" />
+</p>
 
 ```
                                 +-------------------------------------------+
@@ -82,6 +90,14 @@
 9. **Evidence & Citations:** Semantic RAG knowledge base search over official TNSDMA and NDMA disaster SOP manuals.
 10. **Audit Log:** Forward-secure, SHA-256 Merkle-chained immutable transaction trail.
 11. **Benchmark Results:** Real-time empirical evaluation visualizer displaying test results against formal targets.
+
+---
+
+## Field Incident Triage & Evacuation Routing Console
+
+<p align="center">
+  <img src="docs/images/triage_light.jpg" alt="FloodTwin Responder Field Incident Triage and Flood-Aware Evacuation Routes" width="100%" />
+</p>
 
 ---
 
